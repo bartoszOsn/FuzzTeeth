@@ -23,6 +23,10 @@
               file="Source/Components/GroupedControlsComponent.cpp"/>
         <FILE id="FTY0pS" name="GroupedControlsComponent.h" compile="0" resource="0"
               file="Source/Components/GroupedControlsComponent.h"/>
+        <FILE id="Jvvswa" name="ParameterFloatControl.cpp" compile="1" resource="0"
+              file="Source/Components/ParameterFloatControl.cpp"/>
+        <FILE id="RNgns9" name="ParameterFloatControl.h" compile="0" resource="0"
+              file="Source/Components/ParameterFloatControl.h"/>
       </GROUP>
       <FILE id="sq0ngs" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
