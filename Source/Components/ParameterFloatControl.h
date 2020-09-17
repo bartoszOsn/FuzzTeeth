@@ -13,6 +13,7 @@ public:
     void resized() override;
 
 private:
+	juce::RangedAudioParameter* parameter;
 	juce::Slider slider;
 	juce::SliderParameterAttachment attachment;
 

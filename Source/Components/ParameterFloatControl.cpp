@@ -12,8 +12,11 @@
 #include "ParameterFloatControl.h"
 
 
-ParameterFloatControl::ParameterFloatControl(juce::RangedAudioParameter*)
+ParameterFloatControl::ParameterFloatControl(juce::RangedAudioParameter* parameter)
+	: slider(juce::Slider::RotaryHorizontalVerticalDrag, juce::Slider::NoTextBox),
+	attachment(*parameter, slider)
 {
+	this->parameter = parameter;
 }
 
 ParameterFloatControl::~ParameterFloatControl()
@@ -22,27 +25,19 @@ ParameterFloatControl::~ParameterFloatControl()
 
 void ParameterFloatControl::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (juce::Colours::white);
     g.setFont (14.0f);
-    g.drawText ("ParameterFloatControl", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+	g.drawText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.5f)),
+		juce::Justification::topLeft, true);
+	
+	g.setFont(11.0f);
+	g.drawText (slider.getTextFromValue(slider.getValue()), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.5f, 0.5f, 0.5f)),
+                juce::Justification::topLeft, true);
 }
 
 void ParameterFloatControl::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-
+	slider.setBoundsRelative(0.0f, 0.0f, 0.5f, 1.0f);
 }
