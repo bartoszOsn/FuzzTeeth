@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="FwNTSJ" name="FuzzTeeth">
     <GROUP id="{F71597C8-1B9C-9DCE-4236-E33B1A133B64}" name="Source">
+      <FILE id="XwUmiy" name="CallbackManager.cpp" compile="1" resource="0"
+            file="Source/CallbackManager.cpp"/>
+      <FILE id="mBuZnO" name="CallbackManager.h" compile="0" resource="0"
+            file="Source/CallbackManager.h"/>
       <FILE id="xRdEi1" name="SaturatorWavetable.cpp" compile="1" resource="0"
             file="Source/SaturatorWavetable.cpp"/>
       <FILE id="S7SZg2" name="SaturatorWavetable.h" compile="0" resource="0"
