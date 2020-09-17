@@ -16,11 +16,24 @@ FuzzTeethAudioProcessor::FuzzTeethAudioProcessor()
 {
 	waveShaper.initialise(sampleNumber);
 	dspWaveShaper.functionToUse = [this](float x) {return this->waveShaper.processSample(x); };
+	initParameters();
 }
 
 ///<summary>Destructor.</summary>
 FuzzTeethAudioProcessor::~FuzzTeethAudioProcessor()
-{
+{ 
+	delete masterInput;
+	delete masterOutput;
+	delete masterGateTreshold;
+	delete masterLowPass;
+
+	delete teethSize;
+	delete teethFrequency;
+	delete teethLowPass;
+	delete teethSkew;
+
+	delete saturationClip;
+	delete saturationGain;
 }
 
 ///<summary>Returns name of plugin</summary>
@@ -219,6 +232,102 @@ void FuzzTeethAudioProcessor::setStateInformation (const void* data, int sizeInB
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+void FuzzTeethAudioProcessor::initParameters()
+{
+	initMasterParameters();
+	initTeethParameters();
+	initSaturationParameters();
+}
+
+void FuzzTeethAudioProcessor::initMasterParameters()
+{
+	masterInput = new juce::AudioParameterFloat(
+		"masterInput",
+		"Input",
+		juce::NormalisableRange<float>(-20.0f, 20.0f),
+		0.0f,
+		"dB"
+	);
+	masterOutput = new juce::AudioParameterFloat(
+		"masterOutput",
+		"Output",
+		juce::NormalisableRange<float>(-20.0f, 20.0f),
+		0.0f,
+		"dB"
+	);
+	masterGateTreshold = new juce::AudioParameterFloat(
+		"masterGateTreshold",
+		"Gate Treshold",
+		juce::NormalisableRange<float>(-100.0f, 0.0f),
+		-100.0f,
+		"dB"
+	);
+	masterLowPass = new juce::AudioParameterFloat(
+		"masterLowPass",
+		"Low Pass",
+		juce::NormalisableRange<float>(20.0f, 20000.0f),
+		20000.0f,
+		"Hz"
+	);
+
+	addParameter(masterInput);
+	addParameter(masterOutput);
+	addParameter(masterGateTreshold);
+	addParameter(masterLowPass);
+}
+
+void FuzzTeethAudioProcessor::initTeethParameters()
+{
+	teethSize = new juce::AudioParameterFloat(
+		"teethSize",
+		"Teeth Size",
+		juce::NormalisableRange<float>(-0.3f, 0.3f),
+		0.0f
+	);
+	teethFrequency = new juce::AudioParameterFloat(
+		"teethFrequency",
+		"Teeth Frequency",
+		juce::NormalisableRange<float>(1.0f, 10.0f),
+		2.0f
+	);
+	teethLowPass = new juce::AudioParameterFloat(
+		"teethLowPass",
+		"Teeth Low Pass",
+		juce::NormalisableRange<float>(0.45f, 1.0f),
+		1.0f
+	);
+	teethSkew = new juce::AudioParameterFloat(
+		"teethSkew",
+		"Teeth Skew",
+		juce::NormalisableRange<float>(0.0f, 1.0f),
+		0.0f
+	);
+
+	addParameter(teethSize);
+	addParameter(teethFrequency);
+	addParameter(teethLowPass);
+	addParameter(teethSkew);
+}
+
+void FuzzTeethAudioProcessor::initSaturationParameters()
+{
+	saturationGain = new juce::AudioParameterFloat(
+		"saturationGain",
+		"Saturation Gain",
+		juce::NormalisableRange<float>(0.0f, 10.0f),
+		0.0f
+	);
+	saturationClip = new juce::AudioParameterFloat(
+		"saturationClip",
+		"Saturation Clip",
+		juce::NormalisableRange<float>(0.0f, 1.0f),
+		1.0f
+	);
+
+	addParameter(saturationGain);
+	addParameter(saturationClip);
 }
 
 //==============================================================================

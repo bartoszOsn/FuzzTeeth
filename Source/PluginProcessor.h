@@ -7,6 +7,27 @@
 class FuzzTeethAudioProcessor  : public juce::AudioProcessor
 {
 public:
+	//============= Parameters =============
+
+	//----- Master -----
+
+	juce::AudioParameterFloat* masterInput;
+	juce::AudioParameterFloat* masterOutput;
+	juce::AudioParameterFloat* masterGateTreshold;
+	juce::AudioParameterFloat* masterLowPass;
+
+	//----- Teeth -----
+
+	juce::AudioParameterFloat* teethSize;
+	juce::AudioParameterFloat* teethFrequency;
+	juce::AudioParameterFloat* teethLowPass;
+	juce::AudioParameterFloat* teethSkew;
+
+	//----- Saturation -----
+
+	juce::AudioParameterFloat* saturationGain;
+	juce::AudioParameterFloat* saturationClip;
+
     FuzzTeethAudioProcessor();
     ~FuzzTeethAudioProcessor() override;
 
@@ -45,6 +66,11 @@ private:
 	WaveShaper waveShaper;
 
 	juce::dsp::WaveShaper<float, std::function<float(float)>> dspWaveShaper;
+
+	void initParameters();
+	void initMasterParameters();
+	void initTeethParameters();
+	void initSaturationParameters();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FuzzTeethAudioProcessor)
 };
