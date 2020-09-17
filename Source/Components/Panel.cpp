@@ -1,24 +1,7 @@
-/*
-  ==============================================================================
-
-    Panel.cpp
-    Created: 17 Sep 2020 7:37:26am
-    Author:  cokol
-
-  ==============================================================================
-*/
-
 #include <JuceHeader.h>
 #include "Panel.h"
 
-//==============================================================================
-Panel::Panel()
-{
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
-}
-
+///<summary>Destructor</summary>
 Panel::~Panel()
 {
 	for (auto ptr : sections)
@@ -31,11 +14,14 @@ Panel::~Panel()
 	}
 }
 
+///<summary>Clears background</summary>
 void Panel::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 }
 
+///<summary>Called by JUCE when component is resized.</summary>
+///<remarks>Sets bounds for sections and and their children.</remarks>
 void Panel::resized()
 {
 	int size = sections.size();
@@ -55,12 +41,19 @@ void Panel::resized()
 	}
 }
 
+///<summary>Adds section</summary>
+///<remarks>After adding all sections, sliders and buttons you should call <see cref="Panel::resized" /></remarks>
+///<param name="name">Text that will be written over section, label</param>
 void Panel::addSection(juce::String name)
 {
 	juce::GroupComponent* group = new juce::GroupComponent({}, name);
 	sections.add(group);
 }
 
+///<summary>Adds ParameterFloatControl to section.</summary>
+///<param name="parameter">parameter that will be attached to ParameterFloatControl.</param>
+///<param name="sectionIndex">index of section that this ParameterFloatControl will be attached to.</param>
+///<remarks>After adding all sections, sliders and buttons you should call <see cref="Panel::resized" /></remarks>
 void Panel::addSlider(juce::RangedAudioParameter* parameter, int sectionIndex)
 {
 	ParameterFloatControl* control = new ParameterFloatControl(parameter);
@@ -68,6 +61,10 @@ void Panel::addSlider(juce::RangedAudioParameter* parameter, int sectionIndex)
 	components.add(control);
 }
 
+///<summary>Adds ParameterBoolControl to section.</summary>
+///<param name="parameter">parameter that will be attached to ParameterBoolControl.</param>
+///<param name="sectionIndex">index of section that this ParameterBoolControl will be attached to.</param>
+///<remarks>After adding all sections, sliders and buttons you should call <see cref="Panel::resized" /></remarks>
 void Panel::addButton(juce::RangedAudioParameter* parameter, int sectionIndex)
 {
 	//TODO: implement ParameterBoolControl and this method.
