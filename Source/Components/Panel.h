@@ -16,6 +16,6 @@ public:
 	void addButton(juce::RangedAudioParameter* parameter, int sectionIndex);
 
 private:
-	juce::Array<juce::GroupComponent> setions;
+	juce::Array<juce::GroupComponent> sections;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Panel)
 };

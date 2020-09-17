@@ -43,5 +43,6 @@ void Panel::resized()
 	{
 		auto section = sections.getUnchecked(i);
 		section.setBoundsRelative(0.0f, bounds.getHeight() / size * i, 1.0f, bounds.getHeight() / size);
+
 	}
 }
