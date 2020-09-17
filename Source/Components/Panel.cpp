@@ -21,17 +21,18 @@ Panel::Panel()
 
 Panel::~Panel()
 {
+	for (auto ptr : sections)
+	{
+		delete ptr;
+	}
+	for (auto ptr : components)
+	{
+		delete ptr;
+	}
 }
 
 void Panel::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 }
 
@@ -39,10 +40,35 @@ void Panel::resized()
 {
 	int size = sections.size();
 	auto bounds = getLocalBounds();
+	float sectionHeight = bounds.getHeight() / (float)size;
 	for (int i = 0; i < size; i++)
 	{
 		auto section = sections.getUnchecked(i);
-		section.setBoundsRelative(0.0f, bounds.getHeight() / size * i, 1.0f, bounds.getHeight() / size);
-
+		auto sectionBounds = bounds.withY(sectionHeight * i).withHeight(sectionHeight);
+		section->setBounds(sectionBounds);
+		auto children = section->getChildren();
+		for (int j = 0; j < children.size(); j++)
+		{
+			auto child = children.getUnchecked(j);
+			child->setBounds(sectionBounds.withX(sectionHeight * 2 * j).withWidth(sectionHeight * 2));
+		}
 	}
+}
+
+void Panel::addSection(juce::String name)
+{
+	juce::GroupComponent* group = new juce::GroupComponent({}, name);
+	sections.add(group);
+}
+
+void Panel::addSlider(juce::RangedAudioParameter* parameter, int sectionIndex)
+{
+	ParameterFloatControl* control = new ParameterFloatControl(parameter);
+	sections[sectionIndex]->addAndMakeVisible(control);
+	components.add(control);
+}
+
+void Panel::addButton(juce::RangedAudioParameter* parameter, int sectionIndex)
+{
+	//TODO: implement ParameterBoolControl and this method.
 }
