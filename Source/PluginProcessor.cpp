@@ -22,18 +22,6 @@ FuzzTeethAudioProcessor::FuzzTeethAudioProcessor()
 ///<summary>Destructor.</summary>
 FuzzTeethAudioProcessor::~FuzzTeethAudioProcessor()
 { 
-	/*delete masterInput;
-	delete masterOutput;
-	delete masterGateTreshold;
-	delete masterLowPass;
-
-	delete teethSize;
-	delete teethFrequency;
-	delete teethLowPass;
-	delete teethSkew;
-
-	delete saturationClip;
-	delete saturationGain;*/
 }
 
 ///<summary>Returns name of plugin</summary>
