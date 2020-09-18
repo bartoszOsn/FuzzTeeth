@@ -1,23 +1,38 @@
-/*
-  ==============================================================================
-
-    CallbackManager.cpp
-    Created: 17 Sep 2020 12:17:54pm
-    Author:  cokol
-
-  ==============================================================================
-*/
-
 #include "CallbackManager.h"
 
-CallbackManager::Callback::Callback(std::function<void(int, float)> valueChanged, std::function<void(int, bool)> gestureChanged)
+Callback::Callback(std::function<void(int, float)> valueChanged, std::function<void(int, bool)> gestureChanged)
 {
+	this->valueChanged = valueChanged;
+	this->gestureChanged = gestureChanged;
 }
 
-void CallbackManager::Callback::parameterValueChanged(int parameterIndex, float newValue)
+void Callback::parameterValueChanged(int parameterIndex, float newValue)
 {
+	if (valueChanged)
+	{
+		valueChanged(parameterIndex, newValue);
+	}
 }
 
-void CallbackManager::Callback::parameterGestureChanged(int parameterIndex, bool gestureIsStarting)
+void Callback::parameterGestureChanged(int parameterIndex, bool gestureIsStarting)
 {
+	if (gestureChanged)
+	{
+		gestureChanged(parameterIndex, gestureIsStarting);
+	}
+}
+
+CallbackManager::~CallbackManager()
+{
+	for (Callback*& clb : callbacks)
+	{
+		delete clb;
+	}
+}
+
+Callback* CallbackManager::create(std::function<void(int, float)> valueChanged, std::function<void(int, bool)> gestureChanged)
+{
+	Callback* clb = new Callback(valueChanged, gestureChanged);
+	callbacks.add(clb);
+	return clb;
 }
