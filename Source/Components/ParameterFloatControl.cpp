@@ -1,14 +1,3 @@
-/*
-  ==============================================================================
-
-    ParameterFloatControl.cpp
-    Created: 16 Sep 2020 7:32:35pm
-    Author:  cokol
-
-  ==============================================================================
-*/
-
-#include <JuceHeader.h>
 #include "ParameterFloatControl.h"
 
 ///<summary>Constructor</summary>
@@ -18,6 +7,13 @@ ParameterFloatControl::ParameterFloatControl(juce::RangedAudioParameter* paramet
 	attachment(*parameter, slider)
 {
 	this->parameter = parameter;
+	
+	slider.addListener(this);
+	slider.setNumDecimalPlacesToDisplay(0);
+	slider.setTextValueSuffix(" " + parameter->label);
+	addAndMakeVisible(slider);
+
+	setTooltip(parameter->getName(100));
 }
 
 ///<summary>Renders parameter label and value.<summary>
@@ -31,7 +27,7 @@ void ParameterFloatControl::paint (juce::Graphics& g)
 		juce::Justification::topLeft, true);
 	
 	g.setFont(11.0f);
-	g.drawText (slider.getTextFromValue(slider.getValue()), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.5f, 0.5f, 0.5f)),
+	g.drawText (getValueText(), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.5f, 0.5f, 0.5f)),
                 juce::Justification::topLeft, true);
 }
 
@@ -39,4 +35,16 @@ void ParameterFloatControl::paint (juce::Graphics& g)
 void ParameterFloatControl::resized()
 {
 	slider.setBoundsRelative(0.0f, 0.0f, 0.5f, 1.0f);
+}
+
+void ParameterFloatControl::sliderValueChanged(juce::Slider* slider)
+{
+	repaint();
+}
+
+juce::String ParameterFloatControl::getValueText()
+{
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << slider.getValue() << " " << parameter->getLabel();
+	return stream.str();
 }

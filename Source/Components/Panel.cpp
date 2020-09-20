@@ -18,8 +18,6 @@ Panel::~Panel()
 void Panel::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-	g.setColour(juce::Colours::green);
-	g.drawRect(getLocalBounds(), 3.0f);
 }
 
 ///<summary>Called by JUCE when component is resized.</summary>
@@ -34,11 +32,15 @@ void Panel::resized()
 		auto section = sections.getUnchecked(i);
 		auto sectionBounds = bounds.withY(sectionHeight * i).withHeight(sectionHeight);
 		section->setBounds(sectionBounds);
+
+		sectionBounds.reduce(0, 10);
+		sectionBounds.removeFromTop(10);
+
 		auto children = section->getChildren();
 		for (int j = 0; j < children.size(); j++)
 		{
 			auto child = children.getUnchecked(j);
-			child->setBounds(sectionBounds.withX(sectionHeight * 2 * j).withWidth(sectionHeight * 2));
+			child->setBounds(sectionBounds.withX((sectionHeight * 2 - 20) * j + 10).withWidth(sectionHeight * 2 - 20));
 		}
 	}
 }
