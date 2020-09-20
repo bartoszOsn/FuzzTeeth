@@ -40,7 +40,7 @@ void Panel::resized()
 		for (int j = 0; j < children.size(); j++)
 		{
 			auto child = children.getUnchecked(j);
-			child->setBounds(sectionBounds.withX((sectionHeight * 2 - 20) * j + 10).withWidth(sectionHeight * 2 - 20));
+			child->setBounds(juce::Rectangle<int>((sectionHeight * 2 - 20) * j + 10, 20, sectionHeight * 2 - 20, sectionHeight - 30));
 		}
 	}
 }
@@ -62,7 +62,8 @@ void Panel::addSection(juce::String name)
 void Panel::addSlider(juce::RangedAudioParameter* parameter, int sectionIndex)
 {
 	ParameterFloatControl* control = new ParameterFloatControl(parameter);
-	sections[sectionIndex]->addAndMakeVisible(control);
+	auto section = sections[sectionIndex];
+	section->addAndMakeVisible(control);
 	components.add(control);
 }
 
