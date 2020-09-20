@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "waveShaper.h"
+#include "CallbackManager.h"
 
 ///<summary>Distorts audio.</summary>
 class FuzzTeethAudioProcessor  : public juce::AudioProcessor
@@ -62,6 +63,8 @@ public:
 	WaveShaper* getWaveShaper() { return &waveShaper; }
 
 private:
+	CallbackManager callbackManager;
+
 	const int sampleNumber = 512;
 	WaveShaper waveShaper;
 

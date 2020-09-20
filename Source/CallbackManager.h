@@ -18,7 +18,7 @@ private:
 };
 
 ///<summary>It is wrapper around <see cref="juce::AudioParameterFloat::Listener" /> which allows usage of lambdas and std::function.</summary>
-class Callback : juce::AudioParameterFloat::Listener
+class Callback : public juce::AudioProcessorParameter::Listener
 {
 public:
 	void parameterValueChanged(int parameterIndex, float newValue) override;
