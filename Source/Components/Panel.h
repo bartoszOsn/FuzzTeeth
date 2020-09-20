@@ -6,6 +6,7 @@
 class Panel  : public juce::Component
 {
 public:
+	Panel() {};
     ~Panel() override;
 
     void paint (juce::Graphics&) override;

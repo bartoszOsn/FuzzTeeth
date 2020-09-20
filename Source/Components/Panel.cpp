@@ -18,6 +18,8 @@ Panel::~Panel()
 void Panel::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+	g.setColour(juce::Colours::green);
+	g.drawRect(getLocalBounds(), 3.0f);
 }
 
 ///<summary>Called by JUCE when component is resized.</summary>
@@ -47,6 +49,7 @@ void Panel::resized()
 void Panel::addSection(juce::String name)
 {
 	juce::GroupComponent* group = new juce::GroupComponent({}, name);
+	addAndMakeVisible(group);
 	sections.add(group);
 }
 
