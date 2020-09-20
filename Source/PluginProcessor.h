@@ -68,6 +68,10 @@ private:
 	const int sampleNumber = 512;
 	WaveShaper waveShaper;
 
+	juce::dsp::Gain<float> dspInput;
+	juce::dsp::Gain<float> dspOutput;
+	juce::dsp::NoiseGate<float> dspGate;
+	juce::dsp::IIR::Filter<float> dspLowPass;
 	juce::dsp::WaveShaper<float, std::function<float(float)>> dspWaveShaper;
 
 	void initParameters();
