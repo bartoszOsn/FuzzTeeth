@@ -61,10 +61,21 @@ void SaturatorWavetable::reCalc()
 		{
 			x = tanhf(x * gain) / tanhf(gain);
 		}
-		if (x > clip)
+		if (x >= clip)
 		{
-			x = clip;
+			if (clip == 0.0f)
+			{
+				x = 1.0f;
+			}
+			else
+			{
+				x = clip;
+			}
 		}
 		samples[i] = x;
+	}
+	if (clip == 0.0f)
+	{
+		samples[0] = 0.0f;
 	}
 }
