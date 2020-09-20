@@ -227,6 +227,7 @@ void FuzzTeethAudioProcessor::initParameters()
 	initMasterParameters();
 	initTeethParameters();
 	initSaturationParameters();
+
 }
 
 void FuzzTeethAudioProcessor::initMasterParameters()
@@ -293,10 +294,10 @@ void FuzzTeethAudioProcessor::initTeethParameters()
 		0.0f
 	);
 
-	teethSize->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethSize(value); }));
-	teethFrequency->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethFrequency(value); }));
-	teethLowPass->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethLowPassFrequency(value); }));
-	teethSkew->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethSkew(value); }));
+	teethSize->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethSize(*teethSize); }));
+	teethFrequency->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethFrequency(*teethFrequency); }));
+	teethLowPass->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethLowPassFrequency(*teethLowPass); }));
+	teethSkew->addListener(callbackManager.create([this](int i, float value) {waveShaper.setTeethSkew(*teethSkew); }));
 
 	addParameter(teethSize);
 	addParameter(teethFrequency);
@@ -319,8 +320,8 @@ void FuzzTeethAudioProcessor::initSaturationParameters()
 		1.0f
 	);
 
-	saturationGain->addListener(callbackManager.create([this](int i, float value) {waveShaper.setSaturationGain(value); }));
-	saturationClip->addListener(callbackManager.create([this](int i, float value) {waveShaper.setSaturationClip(value); }));
+	saturationGain->addListener(callbackManager.create([this](int i, float value) {waveShaper.setSaturationGain(*saturationGain); }));
+	saturationClip->addListener(callbackManager.create([this](int i, float value) {waveShaper.setSaturationClip(*saturationClip); }));
 
 	addParameter(saturationGain);
 	addParameter(saturationClip);
