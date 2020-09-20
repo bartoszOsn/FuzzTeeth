@@ -67,17 +67,24 @@ private:
 
 	const int sampleNumber = 512;
 	WaveShaper waveShaper;
+	bool shouldUpdateLowPass = false;
+	float lowPassFrequency;
 
-	juce::dsp::Gain<float> dspInput;
-	juce::dsp::Gain<float> dspOutput;
-	juce::dsp::NoiseGate<float> dspGate;
-	juce::dsp::IIR::Filter<float> dspLowPass;
-	juce::dsp::WaveShaper<float, std::function<float(float)>> dspWaveShaper;
+	std::unique_ptr <juce::dsp::Gain<float> > dspInput;
+	std::unique_ptr <juce::dsp::Gain<float> > dspOutput;
+	std::unique_ptr < juce::dsp::NoiseGate<float> > dspGate;
+	std::unique_ptr < juce::dsp::ProcessorDuplicator< juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float> > > dspLowPass;
+	std::unique_ptr < juce::dsp::WaveShaper<float, std::function<float(float)>> > dspWaveShaper;
 
 	void initParameters();
 	void initMasterParameters();
 	void initTeethParameters();
 	void initSaturationParameters();
+
+	void initChain();
+
+	void setLowPass(float f);
+	void UpdateLowPass();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FuzzTeethAudioProcessor)
 };

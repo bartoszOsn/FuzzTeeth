@@ -14,8 +14,7 @@ FuzzTeethAudioProcessor::FuzzTeethAudioProcessor()
                        )
 #endif
 {
-	waveShaper.initialise(sampleNumber);
-	dspWaveShaper.functionToUse = [this](float x) {return this->waveShaper.processSample(x); };
+	initChain();
 	initParameters();
 }
 
@@ -117,7 +116,11 @@ void FuzzTeethAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
 	spec.sampleRate = sampleRate;
 	spec.numChannels = getNumInputChannels();
 	spec.maximumBlockSize = samplesPerBlock;
-	dspWaveShaper.prepare(spec);
+	dspWaveShaper.get()->prepare(spec);
+	dspGate.get()->prepare(spec);
+	dspInput.get()->prepare(spec);
+	dspLowPass.get()->prepare(spec);
+	dspOutput.get()->prepare(spec);
 }
 
 ///<summary>JUCE calls this method when playback stops.</summary>
@@ -154,6 +157,11 @@ bool FuzzTeethAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 
 void FuzzTeethAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+	if (shouldUpdateLowPass)
+	{
+		UpdateLowPass();
+	}
+
 	juce::ScopedNoDenormals noDenormals;
 	auto totalNumInputChannels = getTotalNumInputChannels();
 	auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -168,14 +176,7 @@ void FuzzTeethAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-	if (hasEditor())
-	{
-		FuzzTeethAudioProcessorEditor* editor = ((FuzzTeethAudioProcessorEditor*)getActiveEditor());
-		if (editor != nullptr)
-		{
-			editor->setLevel(buffer.getMagnitude(0, buffer.getNumSamples()));
-		}
-	}
+	
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -194,7 +195,22 @@ void FuzzTeethAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     }
 	juce::dsp::AudioBlock<float> ab(buffer);
 	juce::dsp::ProcessContextReplacing<float> ctx(ab);
-	dspWaveShaper.process(ctx);
+
+	dspInput.get()->process(ctx);
+	dspGate.get()->process(ctx);
+
+	if (hasEditor())
+	{
+		FuzzTeethAudioProcessorEditor* editor = ((FuzzTeethAudioProcessorEditor*)getActiveEditor());
+		if (editor != nullptr)
+		{
+			editor->setLevel(buffer.getMagnitude(0, buffer.getNumSamples()));
+		}
+	}
+
+	dspWaveShaper.get()->process(ctx);
+	dspLowPass.get()->process(ctx);
+	dspOutput.get()->process(ctx);
 }
 
 //==============================================================================
@@ -260,6 +276,16 @@ void FuzzTeethAudioProcessor::initMasterParameters()
 		20000.0f,
 		"Hz"
 	);
+
+	masterInput->addListener(callbackManager.create([this](int i, float value) {dspInput.get()->setGainDecibels(*masterInput); }));
+	masterOutput->addListener(callbackManager.create([this](int i, float value) {dspOutput.get()->setGainDecibels(*masterOutput); }));
+	masterGateTreshold->addListener(callbackManager.create([this](int i, float value) {dspGate.get()->setThreshold(*masterGateTreshold); }));
+	masterLowPass->addListener(callbackManager.create([this](int i, float value) {setLowPass(*masterLowPass); }));
+
+	dspInput.get()->setGainDecibels(*masterInput);
+	dspOutput.get()->setGainDecibels(*masterOutput);
+	dspGate.get()->setThreshold(*masterGateTreshold);
+	setLowPass(*masterLowPass);
 
 	addParameter(masterInput);
 	addParameter(masterOutput);
@@ -333,6 +359,35 @@ void FuzzTeethAudioProcessor::initSaturationParameters()
 
 	addParameter(saturationGain);
 	addParameter(saturationClip);
+}
+
+void FuzzTeethAudioProcessor::initChain()
+{
+	dspInput.reset(new juce::dsp::Gain<float>());
+	dspOutput.reset(new juce::dsp::Gain<float>());
+	dspGate.reset(new juce::dsp::NoiseGate<float>());
+	dspLowPass.reset(new juce::dsp::ProcessorDuplicator< juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float> >());
+	dspWaveShaper.reset(new juce::dsp::WaveShaper<float, std::function<float(float)>>());
+
+	waveShaper.initialise(sampleNumber);
+	dspWaveShaper->functionToUse = [this](float x) {return this->waveShaper.processSample(x); };
+
+	dspGate->setRatio(1000);
+	dspGate->setAttack(10.0f);
+	dspGate->setRelease(60.0f);
+}
+
+void FuzzTeethAudioProcessor::setLowPass(float f)
+{
+	lowPassFrequency = f;
+	shouldUpdateLowPass = true;
+}
+
+void FuzzTeethAudioProcessor::UpdateLowPass()
+{
+	auto sampleRate = getSampleRate();
+	*dspLowPass.get()->state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, lowPassFrequency);
+	shouldUpdateLowPass = false;
 }
 
 //==============================================================================
