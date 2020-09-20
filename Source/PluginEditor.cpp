@@ -82,5 +82,10 @@ void FuzzTeethAudioProcessorEditor::initPanel()
 	this->panel->addSection("Teeth");
 	this->panel->addSection("Saturation");
 
+	this->panel->addSlider(audioProcessor.masterInput, 0);
+	this->panel->addSlider(audioProcessor.masterOutput, 0);
+	this->panel->addSlider(audioProcessor.masterGateTreshold, 0);
+	this->panel->addSlider(audioProcessor.masterLowPass, 0);
+
 	this->addAndMakeVisible(panel);
 }
