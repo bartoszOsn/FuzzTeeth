@@ -16,19 +16,21 @@ ParameterFloatControl::ParameterFloatControl(juce::RangedAudioParameter* paramet
 	setTooltip(parameter->getName(100));
 }
 
-///<summary>Renders parameter label and value.<summary>
+///<summary>Renders parameter label and value.</summary>
 void ParameterFloatControl::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (juce::Colours::white);
     g.setFont (14.0f);
-	g.drawText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.5f)),
-		juce::Justification::topLeft, true);
+	//g.drawText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.5f)),
+	//	juce::Justification::topLeft, true);
+	g.drawFittedText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.75f)).toNearestInt(),
+		juce::Justification::topLeft, 3, 1.0f);
 	
 	g.setFont(11.0f);
 	g.drawText (getValueText(), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.5f, 0.5f, 0.5f)),
-                juce::Justification::topLeft, true);
+                juce::Justification::centredLeft, true);
 }
 
 ///<summary>Called by JUCE when this component is resized.</summary>

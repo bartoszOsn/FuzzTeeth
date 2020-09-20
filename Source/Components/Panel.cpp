@@ -37,10 +37,12 @@ void Panel::resized()
 		sectionBounds.removeFromTop(10);
 
 		auto children = section->getChildren();
+		int childsWidth = sectionHeight * 2 - 20;
+		childsWidth = std::min(childsWidth, (sectionBounds.getWidth() - 15) / children.size());
 		for (int j = 0; j < children.size(); j++)
 		{
 			auto child = children.getUnchecked(j);
-			child->setBounds(juce::Rectangle<int>((sectionHeight * 2 - 20) * j + 10, 20, sectionHeight * 2 - 20, sectionHeight - 30));
+			child->setBounds(juce::Rectangle<int>(childsWidth * j + 10, 20, childsWidth, sectionHeight - 30));
 		}
 	}
 }
