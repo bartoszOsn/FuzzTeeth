@@ -24,10 +24,6 @@
               file="Source/Components/GraphsComponent.cpp"/>
         <FILE id="mLOavp" name="GraphsComponent.h" compile="0" resource="0"
               file="Source/Components/GraphsComponent.h"/>
-        <FILE id="y4s5eX" name="GroupedControlsComponent.cpp" compile="1" resource="0"
-              file="Source/Components/GroupedControlsComponent.cpp"/>
-        <FILE id="FTY0pS" name="GroupedControlsComponent.h" compile="0" resource="0"
-              file="Source/Components/GroupedControlsComponent.h"/>
         <FILE id="b3iiSd" name="Panel.cpp" compile="1" resource="0" file="Source/Components/Panel.cpp"/>
         <FILE id="T5kmYx" name="Panel.h" compile="0" resource="0" file="Source/Components/Panel.h"/>
         <FILE id="Jvvswa" name="ParameterFloatControl.cpp" compile="1" resource="0"
