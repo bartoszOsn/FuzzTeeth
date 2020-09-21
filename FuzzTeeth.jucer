@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="lHET2S" name="FuzzTeeth" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginChannelConfigs="{1, 1}, {1, 2}, {2, 2}">
   <MAINGROUP id="FwNTSJ" name="FuzzTeeth">
     <GROUP id="{F71597C8-1B9C-9DCE-4236-E33B1A133B64}" name="Source">
       <FILE id="XwUmiy" name="CallbackManager.cpp" compile="1" resource="0"

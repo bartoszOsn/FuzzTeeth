@@ -43,7 +43,7 @@ float WaveShaper::processSample(float sample)
 	}
 	if (sample > 1.0f)
 	{
-		return processSample(1.0f);
+		return sample = 1.0f;
 	}
 
 	float indexFloat = sample * (sampleNumber - 1);
