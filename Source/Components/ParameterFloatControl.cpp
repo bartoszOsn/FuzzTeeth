@@ -23,8 +23,6 @@ void ParameterFloatControl::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (14.0f);
-	//g.drawText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.5f)),
-	//	juce::Justification::topLeft, true);
 	g.drawFittedText(parameter->getName(100), getLocalBounds().toFloat().getProportion(juce::Rectangle<float>(0.5f, 0.0f, 0.5f, 0.75f)).toNearestInt(),
 		juce::Justification::topLeft, 3, 1.0f);
 	
@@ -39,11 +37,13 @@ void ParameterFloatControl::resized()
 	slider.setBoundsRelative(0.0f, 0.0f, 0.5f, 1.0f);
 }
 
+///<summary>Callback registered to Slider which is invoked when value of slider changed.</summary>
 void ParameterFloatControl::sliderValueChanged(juce::Slider* slider)
 {
 	repaint();
 }
 
+///<summary>Returns text which will be displayed next to slider, as its current value.</summary>
 juce::String ParameterFloatControl::getValueText()
 {
 	std::stringstream stream;

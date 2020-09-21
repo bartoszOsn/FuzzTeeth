@@ -75,6 +75,7 @@ void FuzzTeethAudioProcessorEditor::initGraphs()
 	this->addAndMakeVisible(graphs);
 }
 
+///<summary>Initialises <see cref="FuzzTeethAudioProcessorEditor::panel" /></summary>
 void FuzzTeethAudioProcessorEditor::initPanel()
 {
 	this->panel = new Panel();

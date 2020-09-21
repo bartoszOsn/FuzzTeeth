@@ -68,12 +68,3 @@ void Panel::addSlider(juce::RangedAudioParameter* parameter, int sectionIndex)
 	section->addAndMakeVisible(control);
 	components.add(control);
 }
-
-///<summary>Adds ParameterBoolControl to section.</summary>
-///<param name="parameter">parameter that will be attached to ParameterBoolControl.</param>
-///<param name="sectionIndex">index of section that this ParameterBoolControl will be attached to.</param>
-///<remarks>After adding all sections, sliders and buttons you should call <see cref="Panel::resized" /></remarks>
-void Panel::addButton(juce::RangedAudioParameter* parameter, int sectionIndex)
-{
-	//TODO: implement ParameterBoolControl and this method.
-}

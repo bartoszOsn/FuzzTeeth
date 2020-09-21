@@ -2,7 +2,6 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "Components/GroupedControlsComponent.h"
 #include "Components/GraphsComponent.h"
 #include "Components/Panel.h"
 
@@ -25,6 +24,8 @@ private:
 
 	///<summary>This component handles graphs</summary>
 	GraphsComponent* graphs;
+
+	///<summary>provides components to modify audio parameters values.</summary>
 	Panel* panel;
 
 	void setLayout(juce::Rectangle<int> bounds);

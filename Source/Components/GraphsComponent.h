@@ -23,7 +23,7 @@ public:
 
 	///<summary>Gives this component info about current level of audio, in range [0, 1].</summary>
 	///<param name="level">Current level of audio.</param>
-	void setLevel(float level) { this->audioLevel = level; }
+	void setLevel(float level) { this->audioLevel = std::max(level, 0.9f * audioLevel); }
 
 
 	void timerCallback() override;
@@ -38,6 +38,7 @@ private:
 	///<summary>Component which drawn outline around example sinus graph</summary>
 	juce::GroupComponent* waveGroup;
 
+	///<summary>Level of audio, that will be rendered.</summary>
 	float audioLevel;
 
 	///<summary>Margin between inner and outer (group) outline of the graph</summary>

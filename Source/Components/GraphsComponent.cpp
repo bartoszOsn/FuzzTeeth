@@ -40,10 +40,13 @@ void GraphsComponent::resized()
 	waveGroup->setBoundsRelative(0.5, 0, 0.5, 1);
 
 }
+
+///<summary>Called 30 times per second to notify component to repaint itself.</summary>
 void GraphsComponent::timerCallback()
 {
 	repaint();
 }
+
 ///<summary>
 /// Returns area for drawing waveshaper.
 ///</summary>
@@ -105,6 +108,11 @@ void GraphsComponent::drawWaveShaper(juce::Graphics& g, juce::Rectangle<float> a
 	}
 }
 
+///<summary>plots example sin(x * frequency) function modified by waveshaper.</summary>
+///<param name="g">Graphics object</param>
+///<param name="area">Area in which function should be drawn.</param>
+///<param name="frequency">Frequency of wave, i.e. multiplier of x.</param>
+///<param name="sampleNumber">How many points should be drawn?</param>
 void GraphsComponent::drawExampleWave(juce::Graphics& g, juce::Rectangle<float> area, float frequency, int sampleNumber)
 {
 	area.reduce(drawingMargin, drawingMargin);
@@ -131,6 +139,7 @@ void GraphsComponent::drawExampleWave(juce::Graphics& g, juce::Rectangle<float> 
 	}
 }
 
+///<summary>Draws volume level.</summary>
 void GraphsComponent::drawVolumeLevel(juce::Graphics& g, juce::Rectangle<float> area)
 {
 	area = area.getProportion(juce::Rectangle<float>(0, 0, audioLevel, 1));
