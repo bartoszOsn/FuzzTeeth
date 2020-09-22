@@ -15,6 +15,7 @@ public:
     ~FuzzTeethAudioProcessorEditor() override;
 
     void resized() override;
+	void paint(juce::Graphics& g) override;
 
 	void setLevel(float level);
 

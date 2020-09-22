@@ -31,6 +31,11 @@ void FuzzTeethAudioProcessorEditor::resized()
 	setLayout(getBounds().reduced(10));
 }
 
+void FuzzTeethAudioProcessorEditor::paint(juce::Graphics& g)
+{
+	g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+}
+
 ///<summary>Gives editor info about level of currently played audio</summary>
 ///<param name="level">Level of currently played audio, in range [0, 1].</param>
 void FuzzTeethAudioProcessorEditor::setLevel(float level)

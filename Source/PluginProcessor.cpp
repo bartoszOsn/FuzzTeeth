@@ -227,15 +227,28 @@ juce::AudioProcessorEditor* FuzzTeethAudioProcessor::createEditor()
 //==============================================================================
 void FuzzTeethAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+	auto parameters = getParameters();
+	juce::Array<float> data;
+	for (auto& parameter : parameters)
+	{
+		data.add(parameter->getValue());
+	}
+	destData.append(data.getRawDataPointer(), sizeof(float) * data.size());
 }
 
 void FuzzTeethAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+	float* floatData = (float*)data;
+	int size = sizeInBytes / sizeof(float);
+	auto parameters = getParameters();
+	if (size != parameters.size())
+	{
+		throw new std::invalid_argument("Size of data is different tha it should be.");
+	}
+	for (int i = 0; i < size; i++)
+	{
+		parameters[i]->setValueNotifyingHost(floatData[i]);
+	}
 }
 
 void FuzzTeethAudioProcessor::initParameters()
