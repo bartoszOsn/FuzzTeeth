@@ -3,7 +3,7 @@ Distortion VST3 plugin made with JUCE.
 ![FuzzTeeth's window's screenshot](docs/window.png)
 
 What makes this plugin quite unique, is the way that it distorts audio.
-Instead of relaing on making shape of the wave more square-like, it also makes it look like it whould have "teeth" (hence the name).
+Instead of relying on making shape of the wave more square-like, it also makes it look like it would have "teeth" (hence the name).
 This aproach gives a lot of new harmonics to the signal, making it "robot - like".
 
 This plugin sounds great applied on guitar.
@@ -12,7 +12,7 @@ This plugin sounds great applied on guitar.
 
 * Master
 	* Input - Simple gain before the distortion.
-	* Output - Siple gain after the distortion.
+	* Output - Simple gain after the distortion.
 	* Gate Treshold - Treshold, in dB, for built-in noise gate.
 	* Low Pass - Frequency, in Hz, for built-in low pass filter.
 * Teeth
